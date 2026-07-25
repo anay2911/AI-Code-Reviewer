@@ -49,10 +49,14 @@ with col2:
             st.code(results["current_code"], language="python")
             st.subheader("Structural Flaws Found")
             report = results["critic_report"]
+
             if report and report.bugs:
+                perf_bugs = [b for b in report.bugs if b.category.lower() == "performance"]
                 for bug in report.bugs:
                     with st.expander(f"Line {bug.line_number} | {bug.category}"):
                         st.write(f"**Issue:** {bug.issue}")
                         st.code(bug.fix, language="python")
+                if not perf_bugs:
+                    st.info("No performance defects detected.")
             else:
-                st.success("No performance defects detected.")
+                st.success("No bugs or flaws detected!")

@@ -3,10 +3,7 @@ from google import genai
 from langgraph.graph import StateGraph, START, END
 from .state import ReviewState, ReviewReport
 
-# Initialize the official Google GenAI Client
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-
-# Replace your existing critic_node definition with this verified format:
 def critic_node(state: ReviewState) -> dict:
     prompt = f"""
     You are an expert Senior Security & QA Engineer. Analyze this code for bugs, 
@@ -17,8 +14,6 @@ def critic_node(state: ReviewState) -> dict:
     {state['current_code']}
     ```
     """
-    
-    # Ensure config parameter uses the types dictionary structure cleanly
     response = client.models.generate_content(
         model='gemini-2.5-flash',
         contents=prompt,
